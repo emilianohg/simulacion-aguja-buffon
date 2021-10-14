@@ -31,8 +31,8 @@
         </div>
 
         <div class="controls">
-          <button class="btn btn-danger" type="button" (click)="resetBoard()">Reiniciar</button>
-          <button class="btn btn-success">Iniciar simulación</button>
+          <button class="btn btn-danger" type="button" (click)="resetBoard()" [disabled]="isProcessing">Reiniciar</button>
+          <button class="btn btn-success" [disabled]="isProcessing">Iniciar simulación</button>
         </div>
 
         <div class="progress-indicator-bar">

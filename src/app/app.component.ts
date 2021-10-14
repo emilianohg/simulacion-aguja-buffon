@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { literal } from '@angular/compiler/src/output/output_ast'
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Component({
@@ -21,6 +20,7 @@ export class AppComponent implements AfterViewInit {
   totalCrossedLines: number = 0;
 
   timeElapsed: number = 0;
+  isProcessing = false;
 
   constructor(
     private fb: FormBuilder,
@@ -61,7 +61,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   addRandomLine(): void {
-    const longitude = 100.1;
+    const longitude = this.form.get('longitude')?.value ?? 100;
 
     const x1 = (Math.random() * (this.width - (2*longitude))) + longitude;
     //const y1 = (Math.random() * (this.height - (2*longitude))) + longitude;
@@ -80,14 +80,21 @@ export class AppComponent implements AfterViewInit {
     const x2 = x1 + adjacentSide;
     const y2 = y1 + oppositeSide;
 
+    /*
+    console.log(adjacentSide, 'adjacentSide');
+    console.log(oppositeSide, 'oppositeSide');
+
+    const value = Math.pow(adjacentSide, 2) + Math.pow(oppositeSide, 2);
+    const long = Math.sqrt(value);
+    console.log(long);
+    */
+
     this.totalLines++;
     this.drawLine(x1, y1, x2, y2);
   }
 
   drawLine(x1: number, y1: number, x2: number, y2: number): void {
 
-
-    // console.log(x1, y1, x2, y2);
     const context = this.context!;
 
     const s1 = Math.floor(x1 / 100);
@@ -114,12 +121,12 @@ export class AppComponent implements AfterViewInit {
       return;
     }
 
+    this.isProcessing = true;
+
     const duration = this.form.get('time')?.value! * 1000;
     this.totalLinesToGenerate = this.form.get('totalLinesToGenerate')?.value;
 
     this.form.disable();
-
-    // console.log('Total agujas a generar', this.totalLinesToGenerate);
 
     const durationInterval = 20;
 
@@ -127,18 +134,13 @@ export class AppComponent implements AfterViewInit {
 
     const intervalId = setInterval(() => {
 
-      // console.log("Tiempo transcurrido: " + this.timeElapsed + ' de ' + duration);
-
       this.timeElapsed += durationInterval;
 
       exactNeedles = this.totalLinesToGenerate * this.percentage;
       exactNeedles -= this.totalLines;
 
-      // console.log("Agujas agregadas exactas: ", exactNeedles);
-
       if (exactNeedles >= 1) {
         const needles = Math.floor(exactNeedles);
-        // console.log("Agujas agregadas efectivas: ", needles);
 
         for (let i = 0; i < needles; i++) {
 
@@ -149,14 +151,13 @@ export class AppComponent implements AfterViewInit {
 
           this.addRandomLine();
 
-          // console.log(this.totalLines, this.totalLinesToGenerate);
-
           exactNeedles -= needles;
         }
       }
 
       if (this.timeElapsed >= duration) {
         clearInterval(intervalId);
+        this.isProcessing = false;
       }
 
     }, durationInterval);
