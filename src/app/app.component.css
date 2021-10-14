@@ -1,0 +1,69 @@
+
+main {
+  display: flex;
+  justify-content: center;
+  width: 700px;
+  margin: 0 auto;
+  flex-flow: column;
+  gap: 10px;
+}
+
+.card-header {
+  padding: 6px;
+}
+
+.card-body {
+  display: flex;
+  gap: 25px;
+}
+
+.results p {
+  margin: 0;
+  padding: 0;
+}
+
+.item-result {
+  margin-bottom: 13px;
+  font-weight: bold;
+}
+
+form {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.form-group {
+  display: grid;
+  grid-template-columns: 200px 200px;
+  margin-bottom: 5px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.progress-indicator-bar {
+  position: relative;
+  margin: 10px 0;
+}
+
+.progress {
+  height: 30px;
+}
+.percentage-label {
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  font-weight: bold;
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
+}
+#canvas {
+  border: solid 1px #000;
+}
+
