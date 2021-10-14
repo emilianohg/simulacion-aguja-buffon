@@ -1,0 +1,63 @@
+<header>
+  <div class="text-center">
+    <h1>Simulación Aguja de Buffon</h1>
+  </div>
+</header>
+<main>
+  <div class="canvas-container">
+    <canvas id="canvas" #canvas [width]="this.width" [height]="this.height"></canvas>
+  </div>
+
+  <div class="card controls-area">
+    <div class="card-header text-center">
+      Configuración
+    </div>
+    <div class="card-body">
+      <form [formGroup]="form" (submit)="simulate()">
+
+        <div class="form-group">
+          <label for="totalLinesToGenerate">Total de agujas:</label>
+          <input class="form-control" type="number" id="totalLinesToGenerate" formControlName="totalLinesToGenerate">
+        </div>
+
+        <div class="form-group">
+          <label for="time">Duración mínima (seg):</label>
+          <input class="form-control" type="number" id="time" formControlName="time">
+        </div>
+
+        <div class="form-group">
+          <label for="longitude">Longitud de la aguja (px):</label>
+          <input class="form-control" type="number" id="longitude" formControlName="longitude">
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-danger" type="button" (click)="resetBoard()" [disabled]="isProcessing">Reiniciar</button>
+          <button class="btn btn-success" [disabled]="isProcessing">Iniciar simulación</button>
+        </div>
+
+        <div class="progress-indicator-bar">
+          <span class="percentage-label">{{ this.printPercentage }} %</span>
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" [ngStyle]="{'width.%': (this.percentage * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+
+      </form>
+      <div class="results">
+        <div class="item-result">
+          <p>Agujas que cruzan</p>
+          <p>{{ this.totalCrossedLines }}</p>
+        </div>
+        <div class="item-result">
+          <p>Total de agujas generadas</p>
+          <p>{{ this.totalLines }}</p>
+        </div>
+        <div class="item-result">
+          <p>Aproximación a PI</p>
+          <p>&#x3C0; &#8776; {{ pi }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
