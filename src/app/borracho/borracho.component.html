@@ -1,0 +1,104 @@
+<header>
+  <div class="text-center">
+    <h1>Simulación Borracho</h1>
+  </div>
+</header>
+<main>
+  <div class="main-graph">
+    <div class="table-container">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th class="text-center">#</th>
+            <th class="text-center"># camino</th>
+            <th class="text-center">Num. aleatorio</th>
+            <th class="text-center">Localización</th>
+            <th class="text-center">Exito</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let w of walksShowed">
+            <tr>
+              <td class="text-center">{{ w.walk.index }}</td>
+              <td class="text-center">--</td>
+              <td class="text-center">--</td>
+              <td class="text-center">({{ w.walk.point.join(', ') }})</td>
+              <td class="text-center">{{ w.walk.isMoreThanTwoBlocks ? 'Si' : 'No' }}</td>
+              <td class="text-center">
+                <i class="fa fa-chevron-up" *ngIf="!w.hiddenDetail" (click)="w.hiddenDetail = true"></i>
+                <i class="fa fa-chevron-down" *ngIf="w.hiddenDetail" (click)="w.hiddenDetail = false"></i>
+              </td>
+            </tr>
+            <ng-container  *ngIf="!w.hiddenDetail">
+              <tr *ngFor="let pos of w.walk.positions" class="row-detail">
+                <td></td>
+                <td class="text-center">{{ pos.index }}</td>
+                <td class="text-right">{{ pos.randomNumber.toFixed(6) }}</td>
+                <td class="text-center">({{ pos.coordinate.join(', ') }})</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="canvas-container">
+      <canvas id="canvas" #canvas [width]="this.diameter" [height]="this.diameter"></canvas>
+    </div>
+  </div>
+
+  <div class="card controls-area">
+    <div class="card-header text-center">
+      Configuración
+    </div>
+    <div class="card-body">
+      <form [formGroup]="form" (submit)="simulate()">
+
+        <div class="form-group">
+          <label for="totalWalks">Numero de viajes:</label>
+          <input class="form-control" type="number" id="totalWalks" formControlName="totalWalks">
+        </div>
+
+        <div class="form-group">
+          <label for="totalDirections">Movimientos por viaje:</label>
+          <input class="form-control" type="number" id="totalDirections" formControlName="totalDirections">
+        </div>
+
+        <div class="form-group">
+          <label for="time">Duración mínima (seg):</label>
+          <input class="form-control" type="number" id="time" formControlName="time">
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-danger" type="button" (click)="resetBoard()" [disabled]="isProcessing">Reiniciar</button>
+          <button class="btn btn-success" [disabled]="isProcessing">Iniciar simulación</button>
+        </div>
+
+        <div class="progress-indicator-bar">
+          <span class="percentage-label">{{ this.printPercentage }} %</span>
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" [ngStyle]="{'width.%': (this.percentage * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+
+      </form>
+      <div class="results">
+        <div class="item-result">
+          <p>Mas de dos cuadras</p>
+          <p>{{ this.moreThanTwoBlocks }}</p>
+        </div>
+        <div class="item-result">
+          <p>Total de viajes</p>
+          <p>{{ this.totalWalks }}</p>
+        </div>
+        <div class="item-result">
+          <p>Porcentaje de veces que caminó mas de dos cuadras</p>
+          <p>{{ moreThanTwoBlocksPorcentage.toFixed(14) }} %</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

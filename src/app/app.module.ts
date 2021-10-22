@@ -6,14 +6,16 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DardosComponent } from './dardos/dardos.component';
 import { AgujasComponent } from './agujas/agujas.component';
-import { MenuComponent } from './menu/menu.component'
+import { MenuComponent } from './menu/menu.component';
+import { BorrachoComponent } from './borracho/borracho.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     DardosComponent,
     AgujasComponent,
-    MenuComponent
+    MenuComponent,
+    BorrachoComponent
   ],
   imports: [
     BrowserModule,
