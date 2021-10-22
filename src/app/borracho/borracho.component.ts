@@ -196,8 +196,6 @@ export class BorrachoComponent implements AfterViewInit {
 
     this.generateWalk(totalWalks, totalDirections);
 
-    console.log(this.walks);
-
     this.isProcessing = true;
     this.form.disable();
 
@@ -232,18 +230,19 @@ export class BorrachoComponent implements AfterViewInit {
 
       this.clearBoard();
 
-      if (currentWalk >= this.walks.length) {
-        clearInterval(intervalId);
-        this.isProcessing = false;
-      } else {
-        this.drawPath(currentPath);
-      }
+      this.drawPath(currentPath);
 
       this.walksShowed.forEach(_w => {
         const w = _w.walk;
         const color = w.isMoreThanTwoBlocks ? '#0f0' : '#f00';
         this.drawCircle(w.point[0] * this.unit, w.point[1] * this.unit, 5, color);
       });
+
+      if (currentWalk >= this.walks.length) {
+        clearInterval(intervalId);
+        this.isProcessing = false;
+      }
+
 
     }, durationInterval);
 
