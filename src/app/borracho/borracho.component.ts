@@ -135,7 +135,6 @@ export class BorrachoComponent implements AfterViewInit {
     context.moveTo(0, 0);
   }
 
-  // todo: verificar si así era
   getDirection(number: number): number[] {
     if (0 <= number && number < 0.25) {
       return [0, 1]; // north
