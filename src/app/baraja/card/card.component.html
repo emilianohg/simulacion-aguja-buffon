@@ -1,0 +1,13 @@
+<div class="card-container" [ngStyle]="{'width.px': this.width, 'height.px': this.height}">
+  <div
+    [class.is-cover]="card.isCover"
+    [class.card-vertical]="isVertical"
+    class="card-front"
+    [ngStyle]="{'width.px': this.width, 'height.px': this.height, 'background-image': 'url(' + card.image + ')'}"
+  ></div>
+  <div
+    [class.is-cover]="card.isCover"
+    [ngStyle]="{'width.px': this.width, 'height.px': this.height}"
+    class="card-cover"
+  ></div>
+</div>

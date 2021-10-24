@@ -1,0 +1,117 @@
+
+<main class="main">
+  <div class="board">
+    <!-- JUGADOR 1 -->
+    <div class="player-section" [ngStyle]="{'background-color': players[0].color}">
+      <app-player [player]="players[0]"></app-player>
+    </div>
+    <!-- JUGADOR 1 CARTAS -->
+    <div class="player-card-area" [ngStyle]="{'background-color': players[0].color}">
+      <app-card *ngFor="let card of players[0].cards" [card]="card"></app-card>
+    </div>
+    <!-- JUGADOR 2 -->
+    <div class="player-section" [ngStyle]="{'background-color': players[1].color}">
+      <app-player [player]="players[1]"></app-player>
+    </div>
+
+    <!-- JUGADOR 4 CARTAS -->
+    <div class="player-card-area-vertical" [ngStyle]="{'background-color': players[3].color}">
+      <app-card *ngFor="let card of players[3].cards" [card]="card"></app-card>
+    </div>
+
+    <!-- TABLERO CENTRAL -->
+    <div class="board-center">
+
+      <ng-container *ngIf="cardsOnGame.length > 0">
+
+        <div class="card-player-1">
+          <app-card [card]="cardsOnGame[0].card" [height]="150" [width]="67*1.5"></app-card>
+        </div>
+        <div class="card-player-2-3">
+          <app-card [card]="cardsOnGame[3].card" [height]="150" [width]="67*1.5"></app-card>
+          <app-card [card]="cardsOnGame[1].card" [height]="150" [width]="67*1.5"></app-card>
+        </div>
+        <div class="card-player-4">
+          <app-card [card]="cardsOnGame[2].card" [height]="150" [width]="67*1.5"></app-card>
+        </div>
+
+      </ng-container>
+
+    </div>
+
+    <!-- JUGADOR 2 CARTAS -->
+    <div class="player-card-area-vertical" [ngStyle]="{'background-color': players[1].color}">
+      <app-card *ngFor="let card of players[1].cards" [card]="card"></app-card>
+    </div>
+
+    <!-- JUGADOR 4 -->
+    <div class="player-section" [ngStyle]="{'background-color': players[3].color}">
+      <app-player [player]="players[3]"></app-player>
+    </div>
+
+    <!-- JUGADOR 3 CARTAS -->
+    <div class="player-card-area" [ngStyle]="{'background-color': players[2].color}">
+      <app-card *ngFor="let card of players[2].cards" [card]="card"></app-card>
+    </div>
+
+    <!-- JUGADOR 3 -->
+    <div class="player-section" [ngStyle]="{'background-color': players[2].color}">
+      <app-player [player]="players[2]"></app-player>
+    </div>
+
+  </div>
+  <div class="controls">
+    <div class="text-center">
+      <h5>
+        Simulación baraja
+      </h5>
+    </div>
+    <hr>
+    <div>
+      <b>Total de juegos: {{ this.totalGames }}</b>
+      <br>
+      <b>Juego actual: {{ this.currentGame }}</b>
+    </div>
+    <hr>
+    <div class="text-center">
+      Manos ganadoras
+    </div>
+    <div class="container-winner-hands">
+      <div *ngFor="let winner of this.winnersHands" class="winner-hand">
+        <img [src]="winner.player.image" [alt]="winner.player.name">
+      </div>
+    </div>
+    <hr>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Porcentaje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let player of players">
+            <td><img [src]="player.image" [alt]="player.name"></td>
+            <td>{{ sumWinners != 0 ? ((player.countWin / sumWinners)*100).toFixed(4) : 0 }}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="chart-wrapper">
+        <canvas baseChart
+                width="200" height="200"
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [colors]="pieChartColors"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</main>
+
+

@@ -1,0 +1,24 @@
+:host {
+  position: relative;
+  width: max-content;
+  height: max-content;
+  display: block;
+}
+.player-avatar {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 3px;
+}
+.player-avatar hr {
+  margin: 5px 5px;
+}
+
+.container-image {
+  background: #fff;
+  border-radius: 100%;
+  padding: 10px;
+}

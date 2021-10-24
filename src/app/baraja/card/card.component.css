@@ -1,0 +1,56 @@
+.card-container {
+  position: relative;
+  width: 67px;
+  height: 100px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 2px 1px 3px #9d9d9d;
+}
+.card-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100px;
+  width: 67px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 100ms;
+  background-size: auto 104%;
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+  backface-visibility: hidden;
+}
+
+.card img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url(/assets/baraja/carta-reverso.png);
+  height: 100px;
+  width: 67px;
+  background-size: auto 104%;
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  transition: transform 100ms;
+}
+
+.card-vertical img {
+  transform: rotateZ(90deg);
+}
+
+.card-horizontal img {
+  transform: rotateZ(0deg);
+}
+
+.is-cover {
+  transform: rotateY(180deg);
+}
+

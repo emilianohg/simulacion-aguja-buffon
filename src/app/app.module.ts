@@ -7,7 +7,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DardosComponent } from './dardos/dardos.component';
 import { AgujasComponent } from './agujas/agujas.component';
 import { MenuComponent } from './menu/menu.component';
-import { BorrachoComponent } from './borracho/borracho.component'
+import { BorrachoComponent } from './borracho/borracho.component';
+import { BarajaComponent } from './baraja/baraja.component';
+import { CardComponent } from './baraja/card/card.component';
+import { PlayerComponent } from './baraja/player/player.component'
+import { ChartsModule } from 'ng2-charts'
 
 @NgModule({
   declarations: [
@@ -15,12 +19,16 @@ import { BorrachoComponent } from './borracho/borracho.component'
     DardosComponent,
     AgujasComponent,
     MenuComponent,
-    BorrachoComponent
+    BorrachoComponent,
+    BarajaComponent,
+    CardComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

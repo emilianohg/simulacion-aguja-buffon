@@ -1,0 +1,82 @@
+.main {
+  display: grid;
+  grid-template-columns: 1100px 200px;
+  margin: 0 auto;
+  justify-content: center;
+  gap: 10px;
+}
+.board {
+  display: grid;
+  grid-template-columns: 200px 700px 200px;
+  grid-template-rows: 115px 550px 115px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  /*
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAE5JREFUKFNjFLgX8f+D0gpGBigA8UFMdDGwAphiZE3oYigmIZuCbACIjWIiTBLZapjJjOjWwdyKrph4hehuQfc13GrkYCHaM3iDh9gABwBrjXEfD3TBIQAAAABJRU5ErkJggg==");
+  background: rgb(0,255,42);
+  background: radial-gradient(circle, rgba(0,255,42,1) 0%, rgba(9,121,31,1) 50%, rgba(1,134,0,1) 100%);
+   */
+}
+
+.board-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  gap: 20px;
+}
+
+.card-player-2-3 {
+  display: flex;
+  gap: 20px;
+}
+
+.player-card-area {
+  width: 100%;
+  height: 100%;
+  /*
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  */
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.player-card-area-vertical {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.player-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.container-winner-hands {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, 1fr);
+  height: 80px;
+}
+.winner-hand img {
+  height: 30px;
+}
+
+table {
+  margin: 0 auto;
+}
+table img {
+  height: 40px;
+}

@@ -4,6 +4,7 @@ import { DardosComponent } from './dardos/dardos.component'
 import { AgujasComponent } from './agujas/agujas.component'
 import { MenuComponent } from './menu/menu.component'
 import { BorrachoComponent } from './borracho/borracho.component'
+import { BarajaComponent } from './baraja/baraja.component'
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'borracho',
     component: BorrachoComponent,
+  },
+  {
+    path: 'baraja',
+    component: BarajaComponent,
   },
   {
     path: '**',
