@@ -2,9 +2,6 @@
   position: relative;
   width: 67px;
   height: 100px;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 2px 1px 3px #9d9d9d;
 }
 .card-front {
   position: absolute;
@@ -12,7 +9,7 @@
   left: 0;
   height: 100px;
   width: 67px;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
   transition: transform 100ms;
   background-size: auto 104%;
@@ -21,6 +18,7 @@
   background-repeat: no-repeat;
   z-index: 1;
   backface-visibility: hidden;
+  box-shadow: 2px 1px 3px #9d9d9d;
 }
 
 .card img {
@@ -40,6 +38,7 @@
   background-position-y: center;
   background-repeat: no-repeat;
   transition: transform 100ms;
+  border-radius: 5px;
 }
 
 .card-vertical img {

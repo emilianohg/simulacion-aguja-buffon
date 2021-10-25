@@ -3,6 +3,7 @@ import { Card, Type } from './Card'
 import { Hand, Player } from './Player'
 import { BaseChartDirective, Label } from 'ng2-charts'
 import { ChartOptions, ChartType } from 'chart.js'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-baraja',
@@ -12,13 +13,14 @@ import { ChartOptions, ChartType } from 'chart.js'
 export class BarajaComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
+  form: FormGroup;
+  processing = false;
 
   cards: Card[];
   cardsOnGame: Hand[];
   players: Player[];
   winnersHands: Hand[];
 
-  timeHand = 1000;
   totalGames = 10;
   currentGame = 1;
 
@@ -44,7 +46,14 @@ export class BarajaComponent implements OnInit {
     },
   ];
 
-  constructor() {
+  constructor(
+    private fb: FormBuilder,
+  ) {
+
+    this.form = this.fb.group({
+      totalGames: [10, [Validators.required, Validators.min(1)]],
+      duration: [2000, [Validators.required, Validators.min(10)]],
+    });
 
     this.cards = [];
     this.cardsOnGame = [];
@@ -52,6 +61,74 @@ export class BarajaComponent implements OnInit {
     this.winnersHands = [];
 
 
+    this.initPlayers();
+
+    this.pieChartLabels = this.players.map(player => player.name);
+    this.pieChartData = this.players.map(_ => 0);
+
+  }
+
+  getCardType (): Type {
+    const randomNumber = Math.random();
+    if (randomNumber >= 0 && randomNumber < 0.25) {
+      return { name: 'oro', value: 4 };
+    } else if (randomNumber >= 0.25 && randomNumber < 0.5) {
+      return { name: 'copa', value: 3 };
+    } else if (randomNumber >= 0.5 && randomNumber < 0.75) {
+      return { name: 'espadas', value: 2 };
+    } else {
+      return { name: 'bastos', value: 1 };
+    }
+  }
+
+  getCardNumber(): number {
+    const randomNumber = Math.random();
+    if (randomNumber >= 0 && randomNumber < 0.1) {
+      return 13; // AS
+    } else if (randomNumber >= 0.1 && randomNumber < 0.2) {
+      return 12;
+    } else if (randomNumber >= 0.2 && randomNumber < 0.3) {
+      return 11;
+    } else if (randomNumber >= 0.3 && randomNumber < 0.4) {
+      return 10;
+    } else if (randomNumber >= 0.4 && randomNumber < 0.5) {
+      return 7;
+    } else if (randomNumber >= 0.5 && randomNumber < 0.6) {
+      return 6;
+    } else if (randomNumber >= 0.6 && randomNumber < 0.7) {
+      return 5;
+    } else if (randomNumber >= 0.7 && randomNumber < 0.8) {
+      return 4;
+    } else if (randomNumber >= 0.8 && randomNumber < 0.9) {
+      return 3;
+    } else {
+      return 2;
+    }
+  }
+
+  setCards(player: Player, totalCard: number): void {
+
+    let count = 0;
+    while (count < totalCard) {
+
+      const type = this.getCardType();
+      const number = this.getCardNumber();
+      const card = this.cards.find(card => card.value == number && card.type.value == type.value);
+
+      if (card != undefined) {
+        player.cards.push(card);
+        const index = this.cards.findIndex(card => card.value == number && card.type.value == type.value);
+        this.cards.splice(index, 1);
+        count++;
+      }
+
+      console.log(this.cards, this.cards.length);
+    }
+
+  }
+
+  initPlayers() {
+    this.players = [];
     for (let i = 0; i < 4; i++) {
       this.players.push({
         id: i,
@@ -62,18 +139,34 @@ export class BarajaComponent implements OnInit {
         color: this.colors[i],
       });
     }
-
-    this.pieChartLabels = this.players.map(player => player.name);
-    this.pieChartData = this.players.map(_ => 0);
-
-    //this.init();
-    //this.selectHand();
-
-    this.game();
-
   }
 
-  game() {
+  play() {
+
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.currentGame = 1;
+
+    this.initPlayers();
+
+    this.players.forEach((player) => {
+      this.pieChartData[player.id] = 0;
+    });
+
+    this.chart.chart.update();
+
+    this.processing = true;
+    const data = this.form.value;
+    this.totalGames = data.totalGames;
+
+    this.chart.chart.update();
+
+    this.game(data.duration);
+  }
+
+  game(timeHand = 300) {
     this.init();
     let count = 0;
     const idInterval = setInterval(() => {
@@ -84,19 +177,20 @@ export class BarajaComponent implements OnInit {
         console.log(this.currentGame, this.totalGames);
         if (this.currentGame < this.totalGames) {
           this.currentGame++;
-          this.game();
+          this.game(timeHand);
         } else {
           this.cardsOnGame = [];
           this.winnersHands = [];
+          this.processing = false;
         }
         return;
       }
 
       this.selectHand();
-      this.verifyHand();
+      this.verifyHand(timeHand);
 
       count++;
-    }, this.timeHand);
+    }, timeHand);
   }
 
   selectHand() {
@@ -111,7 +205,7 @@ export class BarajaComponent implements OnInit {
     });
   }
 
-  verifyHand() {
+  verifyHand(delay: number) {
     let maxHand: Hand|null = null;
     this.cardsOnGame.forEach(hand => {
       if (maxHand == null) {
@@ -120,7 +214,7 @@ export class BarajaComponent implements OnInit {
       }
 
       if (hand.card.value > maxHand.card.value) {
-        this.flipCard(maxHand.card);
+        this.flipCard(maxHand.card, delay/2);
         maxHand = hand;
         return;
       }
@@ -129,12 +223,12 @@ export class BarajaComponent implements OnInit {
         hand.card.value === maxHand.card.value
         && hand.card.type.value > maxHand.card.type.value
       ) {
-        this.flipCard(maxHand.card);
+        this.flipCard(maxHand.card, delay/2);
         maxHand = hand;
         return;
       }
 
-      this.flipCard(hand.card);
+      this.flipCard(hand.card, delay/2);
     });
 
     this.winnersHands.push(maxHand!);
@@ -171,14 +265,14 @@ export class BarajaComponent implements OnInit {
 
     });
 
-    winner.players.forEach((player, i) => {
+    winner.players.forEach((player) => {
       player.countWin++;
       this.pieChartData[player.id]++;
       this.chart.chart.update();
     });
   }
 
-  flipCard(card: Card, time = this.timeHand / 2) {
+  flipCard(card: Card, time: number) {
     setTimeout(() => {
       card.isCover = !card.isCover;
     }, time);
@@ -216,12 +310,9 @@ export class BarajaComponent implements OnInit {
       }
     }
 
-    this.shuffleArray(this.cards);
-
-    this.players.forEach((player, i) => {
-      player.cards = this.cards.slice(i * 10, (i + 1) * 10);
+    this.players.forEach(player => {
+      this.setCards(player, 10);
     });
-
   }
 
   shuffleArray(array: any[]) {

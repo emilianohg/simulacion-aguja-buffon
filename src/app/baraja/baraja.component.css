@@ -80,3 +80,7 @@ table {
 table img {
   height: 40px;
 }
+
+.chart-wrapper {
+  margin-top: 20px;
+}

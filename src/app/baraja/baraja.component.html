@@ -22,6 +22,18 @@
     <!-- TABLERO CENTRAL -->
     <div class="board-center">
 
+      <form [formGroup]="form" (submit)="play()" *ngIf="!processing">
+        <div class="form-group">
+          <label for="totalGames">Numero de juegos</label>
+          <input id="totalGames" type="number" class="form-control form-control-sm" formControlName="totalGames">
+        </div>
+        <div class="form-group">
+          <label for="duration">Duración de cada mano (ms)</label>
+          <input id="duration" type="number" class="form-control form-control-sm" formControlName="duration">
+        </div>
+        <button>Comenzar</button>
+      </form>
+
       <ng-container *ngIf="cardsOnGame.length > 0">
 
         <div class="card-player-1">
@@ -87,29 +99,27 @@
         <thead>
           <tr>
             <th></th>
-            <th>Porcentaje</th>
+            <th>Porcentaje victorias</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let player of players">
             <td><img [src]="player.image" [alt]="player.name"></td>
-            <td>{{ sumWinners != 0 ? ((player.countWin / sumWinners)*100).toFixed(4) : 0 }}%</td>
+            <td><span class="ml-2">{{ sumWinners != 0 ? ((player.countWin / sumWinners)*100).toFixed(4) : 0 }}%</span></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div>
-      <div class="chart-wrapper">
-        <canvas baseChart
-                width="200" height="200"
-                [data]="pieChartData"
-                [labels]="pieChartLabels"
-                [chartType]="pieChartType"
-                [options]="pieChartOptions"
-                [colors]="pieChartColors"
-                [legend]="pieChartLegend">
-        </canvas>
-      </div>
+    <div class="chart-wrapper">
+      <canvas baseChart
+              width="200" height="200"
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              [options]="pieChartOptions"
+              [colors]="pieChartColors"
+              [legend]="pieChartLegend">
+      </canvas>
     </div>
   </div>
 </main>
